@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkoctoprint=self.webpackChunkoctoprint||[]).push([[906],{906:(e,r,s)=>{s.r(r),s.d(r,{default:()=>c});s(43);var t=s(579);const c=()=>(0,t.jsx)("div",{children:(0,t.jsx)("h2",{children:"Confirm Register Page"})})}}]);
-//# sourceMappingURL=906.189229a9.chunk.js.map
