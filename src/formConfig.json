@@ -1,0 +1,114 @@
+{
+    "filterProducts": {
+      "schema": {
+        "title": "Filter Products",
+        "type": "object",
+        "properties": {
+          "cardType": {
+            "type": "string",
+            "title": "Card Type",
+            "enum": ["Magnetic Stripe Card", "Regular Card"]
+          },
+          "cardCategory": {
+            "type": "string",
+            "title": "Card Category",
+            "enum": ["Hospital Card", "Parking Card", "Bank Card", "Game Card", "Personal Information Card"]
+          },
+          "use3DPrinting": {
+            "type": "boolean",
+            "title": "Use 3D Printing"
+          }
+        }
+      },
+      "uiSchema": {
+        "cardType": {
+          "ui:placeholder": "Select Card Type"
+        },
+        "cardCategory": {
+          "ui:placeholder": "Select Card Category"
+        },
+        "use3DPrinting": {
+          "ui:widget": "radio"
+        },
+        "ui:options": {
+          "submitButtonOptions": {
+            "props": {
+              "disabled": false,
+              "className": "btn btn-info"
+            },
+            "norender": false,
+            "submitText": "Filter Products"
+          }
+        }
+      }
+    },
+    "register": {
+      "schema": {
+        "title": "Register",
+        "type": "object",
+        "required": ["email", "password", "confirmPassword"],
+        "properties": {
+          "email": { "type": "string", "title": "Email", "format": "email" },
+          "password": { "type": "string", "title": "Password", "minLength": 6 },
+          "confirmPassword": { "type": "string", "title": "Confirm Password", "minLength": 6 }
+        }
+      },
+      "uiSchema": {
+        "password": {
+          "ui:widget": "password",
+          "ui:placeholder": "Mật khẩu"
+        },
+        "email": {
+          "ui:placeholder": "Email"
+        },
+        "confirmPassword": {
+          "ui:widget": "password",
+          "ui:placeholder": "Xác nhận mật khẩu"
+        },
+        "ui:options": {
+          "submitButtonOptions": {
+            "props": {
+              "disabled": false,
+              "className": "btn btn-info"
+            },
+            "norender": false,
+            "submitText": "Đăng ký"
+          }
+        }
+      }
+    },
+    "login":{
+    "schema": {
+        "title": "Register",
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "title": "Email", "format": "email" },
+          "password": { "type": "string", "title": "Password", "minLength": 6 }
+        }
+    },
+    "uiSchema": {
+        "password": {
+          "ui:widget": "password",
+          "ui:placeholder": "Mật khẩu"
+        },
+        "email": {
+          "ui:placeholder": "Email"
+        },
+        "confirmPassword": {
+          "ui:widget": "password",
+          "ui:placeholder": "Xác nhận mật khẩu"
+        },
+        "ui:options": {
+          "submitButtonOptions": {
+            "props": {
+              "disabled": false,
+              "className": "btn btn-info"
+            },
+            "norender": false,
+            "submitText": "Đăng ký"
+          }
+        }
+      }
+  }
+}

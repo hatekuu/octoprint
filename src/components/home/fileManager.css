@@ -1,0 +1,20 @@
+.file-manager-container {
+    margin: 20px;
+  }
+  
+  .file-manager-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .file-manager-container li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .file-manager-container .btn {
+    margin-left: 10px;
+  }
+  

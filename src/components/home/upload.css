@@ -1,0 +1,23 @@
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .upload-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .upload-container input {
+    margin-bottom: 10px;
+  }
+  
+  .upload-container button {
+    margin-top: 10px;
+  }
+  
+  .upload-container p {
+    margin-top: 10px;
+  }
+  

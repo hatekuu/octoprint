@@ -8,7 +8,6 @@ const Manafile = () => {
   const [fileContent, setFileContent] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -28,29 +27,22 @@ const Manafile = () => {
       setIsLoading(true);
       setErrorMessage("");
       const reader = new FileReader();
-      reader.onprogress = (e) => {
-        if (e.lengthComputable) {
-          setUploadProgress((e.loaded / e.total) * 100);
-        }
-      };
       reader.onload = async (e) => {
         const fileContent = e.target.result;
-        const base64FileContent = btoa(fileContent); // Convert to base64 string
 
         try {
           const mongodb = user.mongoClient("mongodb-atlas");
           const collection = mongodb.db("octoprint").collection("octoprintFileCloud");
-          await collection.insertOne({ fileName: file.name, fileContent: base64FileContent });
+          await collection.insertOne({ fileName: file.name, fileContent: fileContent });
           alert("File uploaded successfully");
           fetchUploadedFiles();
         } catch (error) {
           console.error("Error uploading file:", error);
         } finally {
           setIsLoading(false);
-          setUploadProgress(0);
         }
       };
-      reader.readAsBinaryString(file);
+      reader.readAsText(file); // Read the file content as text
     }
   };
 
@@ -63,21 +55,15 @@ const Manafile = () => {
     }
   };
 
-  const viewFileContent = (base64Content) => {
-    const fileContent = atob(base64Content); // Convert base64 string back to binary string
-    setFileContent(fileContent);
+  const viewFileContent = (fileContent) => {
+    setFileContent(fileContent); // Set the file content directly
   };
 
   return (
     <div>
       <h1>Upload G-code Files</h1>
       <input type="file" accept=".gcode" onChange={uploadFile} />
-      {isLoading && (
-        <div>
-          <p>Uploading... {uploadProgress.toFixed(2)}%</p>
-          <progress value={uploadProgress} max="100"></progress>
-        </div>
-      )}
+      {isLoading && <p>Uploading...</p>}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <h2>Uploaded Files</h2>
       <ul>
