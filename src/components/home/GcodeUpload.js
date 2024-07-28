@@ -1,87 +1,99 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as Realm from 'realm-web';
+import './upload.css';
 
 const app = new Realm.App({ id: process.env.REACT_APP_KEY });
 
-const Manafile = () => {
-  const [user, setUser] = useState(app.currentUser);
-  const [fileContent, setFileContent] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+const GcodeUpload = () => {
+  const [file, setFile] = useState(null);
+  const [fileSize, setFileSize] = useState(0);
+  const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    if (user) {
-      fetchUploadedFiles();
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const fileSizeMB = (selectedFile.size / (1024 * 1024)).toFixed(2);
+      if (fileSizeMB > 5) {
+        setMessage('File size exceeds 5MB limit. Please select a smaller file.');
+        setFile(null);
+        setFileSize(0);
+      } else {
+        setFile(selectedFile);
+        setFileSize(parseFloat(fileSizeMB));
+        setMessage('');
+      }
     }
-  }, [user]);
+  };
 
-  const uploadFile = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // Check if file size is greater than 5MB
-        setErrorMessage("File size exceeds 5MB. Please upload a smaller file.");
+  const handleUpload = async () => {
+    if (!file) {
+      setMessage('No file selected');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const user = app.currentUser;
+      if (!user) {
+        setMessage('User not authenticated');
+        setIsLoading(false);
         return;
       }
 
-      setIsLoading(true);
-      setErrorMessage("");
       const reader = new FileReader();
-      reader.onload = async (e) => {
-        const fileContent = e.target.result;
+      reader.onload = async (event) => {
+        const fileContent = event.target.result;
 
-        try {
-          const mongodb = user.mongoClient("mongodb-atlas");
-          const collection = mongodb.db("octoprint").collection("octoprintFileCloud");
-          await collection.insertOne({ fileName: file.name, fileContent: fileContent });
-          alert("File uploaded successfully");
-          fetchUploadedFiles();
-        } catch (error) {
-          console.error("Error uploading file:", error);
-        } finally {
-          setIsLoading(false);
+        // Extract print time from the second line
+        const lines = fileContent.split('\n');
+        let printTime = 'Unknown';
+        if (lines.length > 1) {
+          const timeLine = lines[1];
+          const timeMatch = timeLine.match(/;TIME:(\d+)/);
+          if (timeMatch) {
+            printTime = parseInt(timeMatch[1], 10); // Convert to an integer
+          }
         }
+
+        const payload = {
+          fileName: file.name,
+          userId: user.id,
+          fileSize: parseFloat(fileSize), // Ensure fileSize is a number
+          fileContent,
+          printTime,
+        };
+
+        const result = await user.functions.uploadGcodeFile(payload);
+
+        if (result.success) {
+          setMessage('File uploaded successfully');
+        } else {
+          setMessage('Error uploading file: ' + result.message);
+        }
+        setIsLoading(false);
       };
-      reader.readAsText(file); // Read the file content as text
-    }
-  };
 
-  const fetchUploadedFiles = async () => {
-    if (user) {
-      const mongodb = user.mongoClient("mongodb-atlas");
-      const collection = mongodb.db("octoprint").collection("octoprintFileCloud");
-      const files = await collection.find({});
-      setUploadedFiles(files);
+      reader.readAsText(file);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setMessage('Error uploading file');
+      setIsLoading(false);
     }
-  };
-
-  const viewFileContent = (fileContent) => {
-    setFileContent(fileContent); // Set the file content directly
   };
 
   return (
-    <div>
-      <h1>Upload G-code Files</h1>
-      <input type="file" accept=".gcode" onChange={uploadFile} />
-      {isLoading && <p>Uploading...</p>}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <h2>Uploaded Files</h2>
-      <ul>
-        {uploadedFiles.map((file) => (
-          <li key={file._id}>
-            {file.fileName}
-            <button onClick={() => viewFileContent(file.fileContent)}>View Content</button>
-          </li>
-        ))}
-      </ul>
-      {fileContent && (
-        <div>
-          <h2>File Content</h2>
-          <pre>{fileContent}</pre>
-        </div>
-      )}
+    <div className="upload-container">
+      <h2>Upload G-code File</h2>
+      <input type="file" accept=".gcode" onChange={handleFileChange} />
+      {file && <p>File size: {fileSize} MB</p>}
+      <button onClick={handleUpload} className="btn btn-info" disabled={isLoading || !file}>
+        {isLoading ? 'Uploading...' : 'Upload'}
+      </button>
+      {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default Manafile;
+export default GcodeUpload;
