@@ -1,8 +1,9 @@
 {
   "files": {
     "main.css": "/octoprint/static/css/main.31d6cfe0.css",
-    "main.js": "/octoprint/static/js/main.13b02a9d.js",
-    "static/js/182.10c5cd7f.chunk.js": "/octoprint/static/js/182.10c5cd7f.chunk.js",
+    "main.js": "/octoprint/static/js/main.96972a53.js",
+    "static/css/159.db904893.chunk.css": "/octoprint/static/css/159.db904893.chunk.css",
+    "static/js/159.920dfbb1.chunk.js": "/octoprint/static/js/159.920dfbb1.chunk.js",
     "static/css/754.26002770.chunk.css": "/octoprint/static/css/754.26002770.chunk.css",
     "static/js/754.baee12dc.chunk.js": "/octoprint/static/js/754.baee12dc.chunk.js",
     "static/css/634.26002770.chunk.css": "/octoprint/static/css/634.26002770.chunk.css",
@@ -14,8 +15,9 @@
     "static/js/402.9d858698.chunk.js": "/octoprint/static/js/402.9d858698.chunk.js",
     "static/js/718.eecb53e6.chunk.js": "/octoprint/static/js/718.eecb53e6.chunk.js",
     "index.html": "/octoprint/index.html",
-    "main.13b02a9d.js.map": "/octoprint/static/js/main.13b02a9d.js.map",
-    "182.10c5cd7f.chunk.js.map": "/octoprint/static/js/182.10c5cd7f.chunk.js.map",
+    "main.96972a53.js.map": "/octoprint/static/js/main.96972a53.js.map",
+    "159.db904893.chunk.css.map": "/octoprint/static/css/159.db904893.chunk.css.map",
+    "159.920dfbb1.chunk.js.map": "/octoprint/static/js/159.920dfbb1.chunk.js.map",
     "754.26002770.chunk.css.map": "/octoprint/static/css/754.26002770.chunk.css.map",
     "754.baee12dc.chunk.js.map": "/octoprint/static/js/754.baee12dc.chunk.js.map",
     "634.26002770.chunk.css.map": "/octoprint/static/css/634.26002770.chunk.css.map",
@@ -29,6 +31,6 @@
   },
   "entrypoints": [
     "static/css/main.31d6cfe0.css",
-    "static/js/main.13b02a9d.js"
+    "static/js/main.96972a53.js"
   ]
 }
