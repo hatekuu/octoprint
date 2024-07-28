@@ -11,11 +11,11 @@ function App() {
       <div>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/confirm-register" element={<ConfirmRegister />} />
-            <Route path="/confirm-password" element={<ConfirmPassword />} />
+            <Route path="octoprint/" element={<Home />} />
+            <Route path="octoprint/register" element={<Register />} />
+            <Route path="octoprint/login" element={<Login />} />
+            <Route path="octoprint/confirm-register" element={<ConfirmRegister />} />
+            <Route path="octoprint/confirm-password" element={<ConfirmPassword />} />
           </Routes>
         </Suspense>
       </div>
