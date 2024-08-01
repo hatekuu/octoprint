@@ -1,0 +1,142 @@
+{
+  
+    "public": {
+      "input": {
+        "jsonSchema": {
+            "title": "Filter Products",
+            "type": "object",
+            "required": ["material", "color", "queueLength","type","speed"],
+            "properties": {
+              "material": {
+                "type": "string",
+                "title": "Vật liệu",
+                "enum": ["PLA", "TPU","ABS","PETG"]
+              },
+              "color": {
+                "type": "string",
+                "title": "Màu",
+                "enum": ["Red", "Blue", "Yellow", "Black", "White","Gray","Rainbow"]
+             
+              },
+              "queueLength": {
+                "type": "integer",
+                "title": "Số người đang đợi",
+                "enum": [1,2,3,4,5,6,7,8,9,10]
+              },
+              "type": {
+                "type": "string",
+                "title": "Loại máy",
+                "enum": ["CoreXY","Cartesian"]
+              },
+              "speed": {
+                "type": "string",
+                "title": "Loại máy",
+                "enum": ["Extra fast","Fast","Slow"]
+            
+              }
+            }
+        },
+        "uiSchema":  {
+            "material": {
+            "ui:placeholder": "Vật liệu in"
+              
+            },
+            "color": {
+              "ui:placeholder": "Màu in",
+              "ui:enumNames": ["Đỏ", "Xanh dương","Vàng","Đen","Trắng","Xám","Đa sắc"]
+            },
+            "queueLength": {
+              "ui:placeholder": "Số lượng file đang chờ"
+              
+            },
+            "type": {
+              "ui:placeholder": "Loại máy"
+              
+            },
+            "speed": {
+              "ui:placeholder": "Tốc độ in mong muống",
+              "ui:enumNames":["Nhanh","Vừa","Chậm"]
+              
+            },
+            "ui:options": {
+              "submitButtonOptions": {
+                "props": {
+                  "disabled": false,
+                  "className": "btn btn-info"
+                },
+                "norender": false,
+                "submitText": "Chọn máy in"
+              }
+            }
+          },
+        "jsonData": {},
+        "jsonInfo": {
+          "Name": "Cart_Module",
+          "author": "Đỗ Đồng",
+          "ver": "2024-3-10"
+        },
+        "jsonPath": {
+          "col": "Null",
+          "db": "Null"
+        }
+      },
+      "output": {
+        "jsonSchema": {},
+        "jsonData": {},
+        "jsonInfo": {
+          "author": "Đỗ Đồng",
+          "ver": "2024-3-10"
+        },
+        "jsonPath": {
+          "db": "Null",
+          "coll": "Null"
+        }
+      },
+      "info": {
+        "name": "Cart_Module"
+      }
+    },
+    "private": {
+      "processing": [
+        {
+          "$lookup": {
+            "from": "printer",
+            "localField": "id",
+            "foreignField": "id",
+            "as": "public.input.jsonData.printer"
+          }
+        },
+        {
+          "$addFields": {
+            "public.input.jsonData.filter": {
+            
+            }
+          }
+        },
+        {
+          "$addFields": {
+            "public.output.jsonData.printer": {
+              "$filter": {
+                "input": "$public.input.jsonData.printer",
+                "as": "item",
+                "cond": {
+                  "$and": [
+                    { "$eq": ["$$item.material", "$public.input.jsonData.filter.material"] },
+                    { "$eq": ["$$item.color", "$public.input.jsonData.filter.color"] },
+                    { "$lte": ["$$item.queueLength", "$public.input.jsonData.filter.queueLength"] },
+                    { "$eq": ["$$item.type", "$public.input.jsonData.filter.type"] },
+                    { "$eq": ["$$item.speed", "$public.input.jsonData.filter.speed"] }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+      
+    },
+    "personal": {
+      "summary": "Thông tin thêm",
+      "noted1": "JSON Schema Cart ver 1.0"
+    }
+  }

@@ -17,11 +17,17 @@ const LoginForm = () => {
     const credentials = Realm.Credentials.emailPassword(email, password);
     // Authenticate the user
     try {
-      await app.logIn(credentials);
+     const user=  await app.logIn(credentials);
+     if(user.customData.type==="Admin"){
+      window.location.href='/octoprint/admin'
+     }else{
+ window.location.href='/octoprint'
+     }
     } catch (error) {
       console.log(error.error)
     }
-   window.location.href='/octoprint'
+    
+  
   };
 
   const handleInputChange = (event) => {

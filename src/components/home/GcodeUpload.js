@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Realm from 'realm-web';
 import './upload.css';
+import Modal from './modal';
 
 const app = new Realm.App({ id: process.env.REACT_APP_KEY });
 
-const GcodeUpload = () => {
+const GcodeUpload = ({ printer }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPrinter, setSelectedPrinter] = useState(null);
+  const [printers, setPrinters] = useState([]);
   const [file, setFile] = useState(null);
   const [fileSize, setFileSize] = useState(0);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (printer?.result) {
+      console.log("đây là bên gcode:", printer?.result[0]);
+      setPrinters(printer?.result[0]?.public?.output?.jsonData?.printer || []);
+    }
+
+    if (printer?.press === "yes") {
+      handleOpenModal();
+    }
+  }, [printer]);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -57,22 +72,34 @@ const GcodeUpload = () => {
           }
         }
 
-        const payload = {
-          fileName: file.name,
-          userId: user.id,
-          fileSize: parseFloat(fileSize), // Ensure fileSize is a number
-          fileContent,
-          printTime,
-        };
+        if (selectedPrinter) {
+          const printerId = selectedPrinter._id;
+          const payload = {
+            fileName: file.name,
+            userId: user.id,
+            fileSize: parseFloat(fileSize), // Ensure fileSize is a number
+            fileContent,
+            printTime,
+            printerId
+          };
 
-        const result = await user.functions.uploadGcodeFile(payload);
+          const result = await user.functions.uploadGcodeFile(payload);
 
-        if (result.success) {
-          setMessage('File uploaded successfully');
+          if (result.success) {
+            setMessage('File uploaded successfully');
+            setFile(null);
+            setFileSize(0);
+            setSelectedPrinter(null);
+            document.querySelector('input[type="file"]').value = null; // Reset input file
+          } else {
+            console.log(result.message);
+            setMessage('Error uploading file: ' + result.message);
+          }
+          setIsLoading(false);
         } else {
-          setMessage('Error uploading file: ' + result.message);
+          alert("Bạn phải chọn máy in");
+          setIsLoading(false);
         }
-        setIsLoading(false);
       };
 
       reader.readAsText(file);
@@ -81,6 +108,19 @@ const GcodeUpload = () => {
       setMessage('Error uploading file');
       setIsLoading(false);
     }
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSelectPrinter = (printer) => {
+    setSelectedPrinter(printer);
+    setIsModalOpen(false);
   };
 
   return (
@@ -92,6 +132,23 @@ const GcodeUpload = () => {
         {isLoading ? 'Uploading...' : 'Upload'}
       </button>
       {message && <p>{message}</p>}
+      <Modal
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        printers={printers} 
+        onSelectPrinter={handleSelectPrinter} 
+      />
+      {selectedPrinter && (
+        <div>
+          <h2>Selected Printer:</h2>
+          <p><strong>Tên máy:</strong> {selectedPrinter.machineName}</p>
+          <p><strong>Vật liệu:</strong> {selectedPrinter.material}</p>
+          <p><strong>Màu:</strong> {selectedPrinter.color}</p>
+          <p><strong>File đang chờ:</strong> {selectedPrinter.queueLength}</p>
+          <p><strong>Loại máy:</strong> {selectedPrinter.type}</p>
+          <p><strong>Tốc độ:</strong> {selectedPrinter.speed}</p>
+        </div>
+      )}
     </div>
   );
 };

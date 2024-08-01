@@ -23,7 +23,7 @@ const ConfirmRegister = () => {
         await app.emailPasswordAuth.confirmUser({ token, tokenId });
         setMessage('Email confirmed successfully!');
         setTimeout(() => {
-          window.location.href('/octoprint/login');
+          window.location.href='/octoprint/login';
         }, 3000); // Redirect to login after 3 seconds
       } catch (error) {
         setMessage('Email confirmation failed. Please try again.');
