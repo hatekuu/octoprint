@@ -63,12 +63,12 @@ const GcodeUpload = ({ printer }) => {
 
         // Extract print time from the second line
         const lines = fileContent.split('\n');
-        let printTime = 'Unknown';
+        let duration = 'Unknown';
         if (lines.length > 1) {
           const timeLine = lines[1];
           const timeMatch = timeLine.match(/;TIME:(\d+)/);
           if (timeMatch) {
-            printTime = parseInt(timeMatch[1], 10); // Convert to an integer
+            duration = parseInt(timeMatch[1], 10); // Convert to an integer
           }
         }
 
@@ -79,7 +79,7 @@ const GcodeUpload = ({ printer }) => {
             userId: user.id,
             fileSize: parseFloat(fileSize), // Ensure fileSize is a number
             fileContent,
-            printTime,
+            duration,
             printerId
           };
 
