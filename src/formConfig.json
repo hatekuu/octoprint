@@ -1,73 +1,4 @@
 {
-  "filterPrint":{
-"schema": {
-        "title": "Filter Products",
-        "type": "object",
-        "required": ["material", "color", "queueLength","type","speed"],
-        "properties": {
-          "material": {
-            "type": "string",
-            "title": "Vật liệu",
-            "enum": ["PLA", "TPU","ABS","PETG"]
-          },
-          "color": {
-            "type": "string",
-            "title": "Màu",
-            "enum": ["Red", "Blue", "Yellow", "Black", "White","Gray","Rainbow"]
-         
-          },
-          "queueLength": {
-            "type": "integer",
-            "title": "Số người đang đợi",
-            "enum": [1,2,3,4,5,6,7,8,9,10]
-          },
-          "type": {
-            "type": "string",
-            "title": "Loại máy",
-            "enum": ["CoreXY","Cartesian"]
-          },
-          "speed": {
-            "type": "string",
-            "title": "Loại máy",
-            "enum": ["Extra fast","Fast","Slow"]
-        
-          }
-        }
-      },
-      "uiSchema": {
-        "material": {
-        "ui:placeholder": "Vật liệu in"
-          
-        },
-        "color": {
-          "ui:placeholder": "Màu in",
-          "ui:enumNames": ["Đỏ", "Xanh dương","Vàng","Đen","Trắng","Xám","Đa sắc"]
-        },
-        "queueLength": {
-          "ui:placeholder": "Số lượng file đang chờ"
-          
-        },
-        "type": {
-          "ui:placeholder": "Loại máy"
-          
-        },
-        "speed": {
-          "ui:placeholder": "Tốc độ in mong muống",
-          "ui:enumNames":["Nhanh","Vừa","Chậm"]
-          
-        },
-        "ui:options": {
-          "submitButtonOptions": {
-            "props": {
-              "disabled": false,
-              "className": "btn btn-info"
-            },
-            "norender": false,
-            "submitText": "Chọn máy in"
-          }
-        }
-      }
-  },
     "filterProducts": {
       "schema": {
         "title": "Filter Products",
@@ -77,13 +8,12 @@
           "cardType": {
             "type": "string",
             "title": "Loại thẻ",
-            "enum": ["Magnetic Stripe Card", "Regular Card"]
-          
+            "enum": ["Thẻ từ", "Thẻ thường"]
           },
           "cardCategory": {
             "type": "string",
             "title": "Danh mục thẻ",
-            "enum": ["Hospital Card", "Parking Card", "Bank Card", "Game Card", "Personal Information Card"]
+            "enum": ["Thẻ thẻ bệnh viện", "Thẻ giữ xe", "Thẻ ngân hàng", "Thẻ Game", "Danh thiếp"]
   
           },
           "quantity": {
@@ -100,21 +30,16 @@
       },
       "uiSchema": {
         "cardType": {
-        "ui:placeholder": "Chọn loại thẻ",
-        "ui:enumNames": ["Thẻ từ", "Thẻ thường"]
+        "ui:placeholder": "Chọn loại thẻ"
         },
         "cardCategory": {
-          "ui:placeholder": "Chọn danh mục thẻ",
-          "ui:enumNames": ["Thẻ thẻ bệnh viện", "Thẻ giữ xe","Thẻ ngân hàng","Thẻ Game","Danh thiếp"]
-          
+          "ui:placeholder": "Chọn danh mục thẻ"
         },
         "quantity": {
           "ui:placeholder": "Số lượng mong muốn trên"
-          
         },
         "completionTime": {
           "ui:placeholder": "Thời gian hoàng thành"
-          
         },
         "ui:options": {
           "submitButtonOptions": {
