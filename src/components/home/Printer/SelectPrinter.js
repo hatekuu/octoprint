@@ -20,8 +20,9 @@ const [uiSchema,setUiSchema]= useState({})
   }
   const handleSubmit = async ({ formData }) => {
     try {
+      
      const result= await app.currentUser.functions.printerModule(formData);
-    console.log(result)
+     console.log(result)
     const data={
       result,
       press:"yes"

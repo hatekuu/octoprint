@@ -1,57 +1,58 @@
 {
     "filterProducts": {
-      "schema": {
-        "title": "Filter Products",
-        "type": "object",
-        "required": ["cardType", "cardCategory", "quantity","completionTime"],
-        "properties": {
-          "cardType": {
-            "type": "string",
-            "title": "Loại thẻ",
-            "enum": ["Thẻ từ", "Thẻ thường"]
-          },
-          "cardCategory": {
-            "type": "string",
-            "title": "Danh mục thẻ",
-            "enum": ["Thẻ thẻ bệnh viện", "Thẻ giữ xe", "Thẻ ngân hàng", "Thẻ Game", "Danh thiếp"]
-  
-          },
-          "quantity": {
-            "type": "integer",
-            "title": "Số lượng trên",
-            "enum": [0,100,200,300,400,500,700,800,900,1000]
-          },
-          "completionTime": {
-            "type": "integer",
-            "title": "Thời gian hoàng thành",
-            "enum": [10,20,30,40,50]
-          }
-        }
-      },
-      "uiSchema": {
+    "schema":{
+      "title": "Đặt mua thẻ hàng loạt",
+      "type": "object",
+      "properties": {
+
         "cardType": {
-        "ui:placeholder": "Chọn loại thẻ"
+          "type": "string",
+          "title": "Loại thẻ",
+          "enum": ["Thẻ bệnh viện", "Thẻ game", "Thẻ giữ xe", "Thẻ ngân hàng", "Danh thiếp"]
         },
-        "cardCategory": {
-          "ui:placeholder": "Chọn danh mục thẻ"
+        "material": {
+          "type": "string",
+          "title": "Chất liệu",
+          "enum": ["Nhựa PVC", "Giấy cứng", "Kim loại"]
+        },
+        "cardTechnology": {
+          "type": "string",
+          "title": "Công nghệ thẻ",
+          "enum": ["Thẻ thường", "Thẻ từ", "Thẻ chip"]
         },
         "quantity": {
-          "ui:placeholder": "Số lượng mong muốn trên"
+          "type": "integer",
+          "title": "Số lượng thẻ",
+          "minimum": 100
         },
-        "completionTime": {
-          "ui:placeholder": "Thời gian hoàng thành"
-        },
-        "ui:options": {
-          "submitButtonOptions": {
-            "props": {
-              "disabled": false,
-              "className": "btn btn-info"
-            },
-            "norender": false,
-            "submitText": "Lọc sản phẩm"
-          }
+        "additionalRequests": {
+          "type": "string",
+          "title": "Yêu cầu đặc biệt"
+     
         }
+      },
+      "required": [ "cardType", "material", "cardTechnology", "quantity"]
+    }
+    ,
+    "uiSchema":{
+      "cardType": {
+        "ui:placeholder": "Chọn loại thẻ"
+      },
+      "material": {
+        "ui:placeholder": "Chọn chất liệu"
+      },
+      "cardTechnology": {
+        "ui:placeholder": "Chọn công nghệ thẻ"
+      },
+      "quantity": {
+        "ui:placeholder": "Nhập số lượng thẻ"
+      },
+      "additionalRequests": {
+        "ui:widget": "textarea",
+        "ui:placeholder": "Nhập các yêu cầu đặc biệt khác..."
       }
+    }
+       
     },
     "register": {
       "schema": {

@@ -1,9 +1,9 @@
 import React, { useEffect,useState } from 'react';
 import * as Realm from 'realm-web';
-import GcodeUpload from './GcodeUpload';
-import FilterProducts from './FilterProducts';
-import SelectPrinter from './SelectPrinter';
-import ViewPrintingFiles from './ViewPrintingFiles';
+import GcodeUpload from './GcodeUpload/GcodeUpload';
+import FilterProducts from './Order/FilterProducts';
+import SelectPrinter from './Printer/SelectPrinter';
+import ViewPrintingFiles from './Bill/ViewPrintingFiles';
 import './home.css';
 
 const app = new Realm.App({ id: process.env.REACT_APP_KEY });

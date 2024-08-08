@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Realm from 'realm-web';
 import './upload.css';
-import Modal from './modal';
+import Modal from '../modal/modal';
 
 const app = new Realm.App({ id: process.env.REACT_APP_KEY });
 
@@ -16,7 +16,7 @@ const GcodeUpload = ({ printer }) => {
 
   useEffect(() => {
     if (printer?.result) {
-      console.log("đây là bên gcode:", printer?.result[0]);
+  
       setPrinters(printer?.result[0]?.public?.output?.jsonData?.printer || []);
     }
 
