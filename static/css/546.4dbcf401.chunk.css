@@ -1,0 +1,2 @@
+.item-list{display:flex;flex-direction:column}.item{border-bottom:1px solid #ddd;margin-bottom:15px;padding:10px}button{background-color:#007bff;border:none;color:#fff;cursor:pointer;font-size:18px;margin:10px}button:hover{background-color:#0056b3}button:focus{outline:none}button:disabled{background-color:#ccc;cursor:not-allowed}
+/*# sourceMappingURL=546.4dbcf401.chunk.css.map*/
