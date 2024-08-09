@@ -3,7 +3,7 @@ import * as Realm from 'realm-web';
 import "./fileManager.css"
 const app = new Realm.App({ id: process.env.REACT_APP_KEY });
 
-const ViewPrintingFiles = () => {
+const Bills = () => {
   const [Bills, setBill] = useState([]);
   const [done, setDone] = useState([]);
   const [inProgress, setInProgress] = useState([]);
@@ -17,7 +17,7 @@ const ViewPrintingFiles = () => {
   const fetchData = async () => {
     const userId = app.currentUser.id;
     try {
-      const result = await app.currentUser.functions.AllBills(userId);
+      const result = await app.currentUser.functions.Adminview(userId);
       setBill(result[0]?.public?.output?.jsonData?.Bills || []);
       setDone(result[0]?.public?.output?.jsonData?.done || []);
       setInProgress(result[0]?.public?.output?.jsonData?.in_progress || []);
@@ -48,7 +48,7 @@ const ViewPrintingFiles = () => {
   };
 const Recieved = async(item)=>{
   try {
-     await app.currentUser.functions.Recived(item._id);
+     await app.currentUser.functions.Shipping(item._id);
      fetchData()
   } catch (error) {
     console.log(error.error)
@@ -69,8 +69,8 @@ const Recieved = async(item)=>{
                   <p>Công nghệ thẻ: {item.cardTechnology}</p>
                   <p>Số lượng: {item.quantity}</p>
                   <p>Trạng thái: {item.status}</p>
-                  {item.status==="Đang chuyển hàng" && (
-                  <button onClick={()=>Recieved(item)}>Đã nhận hàng</button>)}
+                  {item.status==="Đang gói hàng" && (
+                  <button onClick={()=>Recieved(item)}>Gửi hàng</button>)}
                 </>
               )}
               {currentView === 1 && (
@@ -81,8 +81,8 @@ const Recieved = async(item)=>{
                   <p>Trạng thái: {item.status}</p>
                   <p>Thời gian bắt đầu: {new Date(item.StartTime).toLocaleString()}</p>
                   <p>Thời giang kết thúc: {new Date(item.EndTime).toLocaleString()}</p>
-                  {item.status==="Đang chuyển hàng" && (
-                  <button onClick={()=>Recieved(item)}>Đã nhận hàng</button>)}
+                  {item.status==="Đang gói hàng" && (
+                  <button onClick={()=>Recieved(item)}>Gửi hàng</button>)}
                 </>
               )}
               {currentView === 2 && (
@@ -119,4 +119,4 @@ const Recieved = async(item)=>{
   );
 };
 
-export default ViewPrintingFiles;
+export default Bills;
